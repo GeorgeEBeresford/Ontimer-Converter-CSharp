@@ -22,22 +22,18 @@ namespace OntimerConverter
         {
             IEnumerable<string> scriptLines = scriptContents.Split("\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             scriptLines = scriptLines.SelectMany(scriptLine => scriptLine.Split(";".ToCharArray(), StringSplitOptions.RemoveEmptyEntries));
-            IEnumerable<string> convertedScriptLines = ConvertScriptLines(scriptLines);
+            IEnumerable<string> convertedScriptLines = scriptLines.Select(ConvertScriptLine);
             string convertedScriptContents = string.Join('\n', convertedScriptLines);
 
             return convertedScriptContents;
         }
 
-        private IEnumerable<string> ConvertScriptLines(IEnumerable<string> scriptLines)
-        {
-            return scriptLines.Select(ConvertScriptLine);
-        }
-
         private string ConvertScriptLine(string scriptLine, int lineIndex)
         {
             int currentDelay = lineIndex * Delay;
-            Match existingRegexMatch = Regex.Match(scriptLine, "ontimer [0-9]+ \"(.+)\"");
+            Match existingRegexMatch = Regex.Match(scriptLine, "ontimer [0-9]+ \"?(.+)\"?;?");
 
+            // Check if the script line is already an ontimer command
             if (existingRegexMatch.Success && existingRegexMatch.Groups.Count > 1)
             {
                 Group capturedValue = existingRegexMatch.Groups.Cast<Group>().Last();
