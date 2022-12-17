@@ -51,6 +51,11 @@ namespace OntimerConverter.UnitTest
             fullyOntimerScript = "ontimer 0 echo cool;\nontimer 30 echo cool2;\n ontimer 60 echo cool3;\nontimer 90 echo cool4;";
             result = ScriptConverter.ConvertScript(fullyOntimerScript);
             Assert.AreEqual("ontimer 0 \"echo cool\"\nontimer 10 \"echo cool2\"\nontimer 20 \"echo cool3\"\nontimer 30 \"echo cool4\"", result);
+
+            // Command is inside quotation marks
+            fullyOntimerScript = "ontimer 0 \"echo cool\"\nontimer 30 \"echo cool2\"\n ontimer 60 \"echo cool3\"\nontimer 90 \"echo cool4\"";
+            result = ScriptConverter.ConvertScript(fullyOntimerScript);
+            Assert.AreEqual("ontimer 0 \"echo cool\"\nontimer 10 \"echo cool2\"\nontimer 20 \"echo cool3\"\nontimer 30 \"echo cool4\"", result);
         }
     }
 }
