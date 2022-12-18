@@ -67,5 +67,15 @@ namespace OntimerConverter.UnitTest
 
             Assert.AreEqual("ontimer 0 \"echo cool\"\nontimer 10 \"echo cool2\"\nontimer 1020 \"echo cool3\"\nontimer 1230 \"echo cool4\"", result);
         }
+
+        [TestMethod]
+        public void GoBackInTime()
+        {
+            // Script with negative waits
+            string script = @"echo cool;wait 100;echo cool2;wait -100;echo cool3;echo cool4";
+            string result = ScriptConverter.ConvertScript(script);
+
+            Assert.AreEqual("ontimer 0 \"echo cool\"\nontimer 1010 \"echo cool2\"\nontimer 20 \"echo cool3\"\nontimer 30 \"echo cool4\"", result);
+        }
     }
 }

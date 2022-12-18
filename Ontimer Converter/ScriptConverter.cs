@@ -66,7 +66,7 @@ namespace OntimerConverter
 
         private int ExtractManualDelayFromScriptLine(string scriptLine)
         {
-            Match delayRegexMatch = Regex.Match(scriptLine, "wait ([0-9]+);?");
+            Match delayRegexMatch = Regex.Match(scriptLine, "wait (-?[0-9]+);?");
 
             // Check if the script line is a manual wait command
             if (delayRegexMatch.Success && delayRegexMatch.Groups.Count > 1)
